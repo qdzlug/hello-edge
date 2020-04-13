@@ -2,21 +2,27 @@ node {
     def app
 
     stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
+        /* 
+         * Let's make sure we have the repository
+         * cloned to our workspace 
+         */
 
         checkout scm
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
+        /*
+         * This builds the actual image; synonymous to
+         * docker build on the command line 
+         */
 
         app = docker.build("demoorg/images/test")
     }
 
     stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
+        /*
+         *  Ideally, we would run a test framework against our image.
+         */ 
 
         app.inside {
             "sleep 20 && /usr/bin/curl http://127.0.0.1:8000"
@@ -24,10 +30,17 @@ node {
     }
 
     stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
+        /*
+         * Finally, we'll push the image with two tags:
+         * First, a hardcoded version number; we could use
+         * the jenkins build if we wanted.
+         * 
          * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
+         *
+         * Note how we refer to the build in terms of tags;
+         * this is how we make sure we can upload to the MeX
+         * registry.
+         */
         docker.withRegistry('https://docker.mobiledgex.net/demoorg/images', 'MeX-Demo') {
             app.push("${env:1.1}")
             app.push("latest")
