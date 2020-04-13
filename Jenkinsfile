@@ -25,7 +25,7 @@ node {
          */ 
 
         app.inside {
-            "sleep 20 && /usr/bin/curl http://127.0.0.1:8000"
+            "/bin/bash sleep 20 && /usr/bin/curl http://127.0.0.1:8000"
         }
     }
 
