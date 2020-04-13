@@ -25,7 +25,7 @@ node {
          */ 
 
         app.inside {
-            "hostname"
+            sh 'hostname'
         }
     }
 
