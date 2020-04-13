@@ -19,7 +19,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
-            sh 'curl http://localhost:8080'
+            sh 'curl http://localhost:8000'
         }
     }
 
