@@ -19,7 +19,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
-            sh 'curl http://localhost:8000'
+            sh 'sleep 20 && curl -f  http://127.0.0.1:8000'
         }
     }
 
