@@ -1,5 +1,6 @@
 node {
     def app
+    def thestatus
 
     stage('Clone repository') {
         /* 
@@ -17,10 +18,14 @@ node {
          */
 
         app = docker.build("demoorg/images/test")
-        slackSend channel: '#jerkins', message: 'Build Complete'
+        slackSend channel: '#jerkins', message: 'hello-node: Build Complete'
+        thestatus = 0
     }
 
     stage('Test image') {
+        when {
+            thestatus = 0
+        }
         /*
          *  Ideally, we would run a test framework against our image.
          *  For now things just get a pass.
@@ -29,7 +34,7 @@ node {
         app.inside {
             sh 'echo "All tests passed!"'
         }
-        slackSend channel: '#jerkins', message: 'Test Complete'
+        slackSend channel: '#jerkins', message: 'hello-node: Test Complete'
     }
 
     stage('Push image') {
@@ -48,6 +53,6 @@ node {
             app.push("${env:1.1}")
             app.push("latest")
         }
-        slackSend channel: '#jerkins', message: 'Push to Registry Complete'
+        slackSend channel: '#jerkins', message: 'hello-node: Push to Registry Complete'
     }
 }
