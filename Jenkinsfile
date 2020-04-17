@@ -17,6 +17,7 @@ node {
          */
 
         app = docker.build("demoorg/images/test")
+        slackSend channel: '#jerkins', message: 'Build Complete'
     }
 
     stage('Test image') {
@@ -28,6 +29,7 @@ node {
         app.inside {
             sh 'echo "All tests passed!"'
         }
+        slackSend channel: '#jerkins', message: 'Test Complete'
     }
 
     stage('Push image') {
@@ -46,5 +48,6 @@ node {
             app.push("${env:1.1}")
             app.push("latest")
         }
+        slackSend channel: '#jerkins', message: 'Push to Registry Complete'
     }
 }
