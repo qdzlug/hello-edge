@@ -11,6 +11,7 @@ node {
          */
 
         checkout scm
+        slackSend channel: '#jerkins', message: 'hello-node: Checkout Complete'
     }
 
     stage('Build image') {
@@ -21,18 +22,9 @@ node {
 
         app = docker.build("demoorg/images/test")
         slackSend channel: '#jerkins', message: 'hello-node: Build Complete'
-        script {
-        thestatus = 1
-        }
     }
 
     stage('Test image') {
-        when {
-            expression { thestatus }
-            all_of {
-              expression { tru }
-            }
-        }
         /*
          *  Ideally, we would run a test framework against our image.
          *  For now things just get a pass.
