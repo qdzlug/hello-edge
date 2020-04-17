@@ -19,12 +19,12 @@ node {
 
         app = docker.build("demoorg/images/test")
         slackSend channel: '#jerkins', message: 'hello-node: Build Complete'
-        thestatus = 0
+        thestatus = 1
     }
 
     stage('Test image') {
         when {
-            thestatus = 0
+            thestatus = equals 0
         }
         /*
          *  Ideally, we would run a test framework against our image.
